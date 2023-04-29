@@ -10,7 +10,7 @@ export class Car {
   public capacity: number,
   public price: number,
   public imageUrl: string,
-  public status: string)
+  public status: boolean)
   {}
 }
 

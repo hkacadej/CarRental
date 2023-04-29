@@ -1,15 +1,19 @@
 package TheCarRentalProject.Controller;
 
 import TheCarRentalProject.Car.Car;
+import TheCarRentalProject.Car.CarCategory;
 import TheCarRentalProject.Service.CarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping
@@ -27,5 +31,22 @@ public class CarController {
         return carService.getCars();
     }
 
+    @GetMapping(path = "/cars/{id}")
+    public Optional<Car> getCarById(@PathVariable Long id){
+        return carService.getCarById(id);
+    }
 
+    @GetMapping(path = "/cars/category/{id}")
+    public List<Car> getCarsByCategory(@PathVariable Long id){
+        return carService.getCarsByCategory(id);
+    }
+
+    @GetMapping(path = "/categories")
+    public List<CarCategory> getCategories(){
+        return carService.getCategories();
+    }
+    @GetMapping(path = "cars/search/{keyword}")
+    public List<Car> searchCars(@PathVariable String keyword){
+        return carService.searchCars(keyword);
+    }
 }
