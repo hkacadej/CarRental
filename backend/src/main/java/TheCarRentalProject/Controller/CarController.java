@@ -49,4 +49,7 @@ public class CarController {
     public List<Car> searchCars(@PathVariable String keyword){
         return carService.searchCars(keyword);
     }
+
+    @GetMapping(name = "/reservations/{carId}")
+    public List<Reservation> getCarReservtion(@PathVariable Long carId){return carService.getCarReservation(carId);}
 }
