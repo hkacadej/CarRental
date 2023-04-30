@@ -2,14 +2,13 @@ package TheCarRentalProject.Controller;
 
 import TheCarRentalProject.Car.Car;
 import TheCarRentalProject.Car.CarCategory;
+import TheCarRentalProject.Car.Reservation;
 import TheCarRentalProject.Service.CarService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
@@ -50,6 +49,12 @@ public class CarController {
         return carService.searchCars(keyword);
     }
 
-    @GetMapping(name = "/reservations/{carId}")
-    public List<Reservation> getCarReservtion(@PathVariable Long carId){return carService.getCarReservation(carId);}
+    @GetMapping(path = "/reservations/{id}")
+    public List<Reservation> getCarReservation(@PathVariable Long id){return carService.getCarReservation(id);}
+
+    @PostMapping
+    public ResponseEntity<Reservation> saveReservation(@RequestBody Reservation reservation) {
+        Reservation savedReservation = carService.saveReservation(reservation);
+        return new ResponseEntity<>(savedReservation, HttpStatus.CREATED);
+    }
 }

@@ -1,0 +1,25 @@
+<div class="main-content page-m">
+  <div class="section-content section-content-p30">
+
+    <div class="container-fluid">
+
+      <mat-form-field class="example-form-field" appearance="fill">
+        <mat-label>First campaign</mat-label>
+        <mat-date-range-input
+          [formGroup]="campaignOne"
+          [rangePicker]="campaignOnePicker"
+          [comparisonStart]="campaignTwo.value.start"
+          [comparisonEnd]="campaignTwo.value.end">
+
+          <input matStartDate  placeholder="Start date" formControlName="start" [matDatepickerFilter]="disableRange">
+          <input matEndDate matDatepicker placeholder="End date" formControlName="end" [matDatepickerFilter]="disableRange">
+        </mat-date-range-input>
+        <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle matIconSuffix [for]="campaignOnePicker"></mat-datepicker-toggle>
+        <mat-date-range-picker #campaignOnePicker></mat-date-range-picker>
+      </mat-form-field>
+
+    </div>
+    </div>
+  </div>
+
