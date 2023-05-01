@@ -1,0 +1,12 @@
+::ng-deep.special-date {
+  background: red !important;
+}
+::ng-deep.my-date-picker {
+  size: 5em !important;
+}
+
+
+
+
+
+

@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.Year;
+import java.util.Set;
 
 @Entity
 @Data
@@ -52,5 +53,8 @@ public class Car {
     @ManyToOne
     @JoinColumn(name = "category_id", referencedColumnName = "id", nullable = false, foreignKey = @ForeignKey(name = "fk_category"))
     private CarCategory category;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "car")
+    private Set<Reservation> reservations;
 
 }

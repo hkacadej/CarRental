@@ -7,7 +7,9 @@
     <div class="price">
       {{ car.price | currency:'EUR' }}/da
     </div>
-    <button (click)="reserve(car)" class="btn btn-primary btn-sm">Add to Cart</button>
+    <a routerLink="/reserve/{{car.id}}">
+      <button class="btn btn-primary btn-sm">Add to Cart</button>
+    </a>
     <hr>
     <h4>
       Description
