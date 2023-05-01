@@ -52,9 +52,10 @@ public class CarController {
     @GetMapping(path = "/reservations/{id}")
     public List<Reservation> getCarReservation(@PathVariable Long id){return carService.getCarReservation(id);}
 
-    @PostMapping
+    @PostMapping(path = "/reservations/reserve")
     public ResponseEntity<Reservation> saveReservation(@RequestBody Reservation reservation) {
-        Reservation savedReservation = carService.saveReservation(reservation);
-        return new ResponseEntity<>(savedReservation, HttpStatus.CREATED);
+        carService.saveReservation(reservation);
+        System.out.println("henri");
+        return new ResponseEntity<>( HttpStatus.CREATED);
     }
 }

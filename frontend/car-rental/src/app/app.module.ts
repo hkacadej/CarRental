@@ -13,16 +13,14 @@ import { CarsDetailComponent } from './components/cars-detail/cars-detail.compon
 import { SearchComponent } from './search/search/search.component';
 import { DatePickerComponent } from './component/date-picker/date-picker.component';
 import { MatNativeDateModule } from '@angular/material/core';
-import { MAT_DATE_RANGE_SELECTION_STRATEGY, MatDatepickerInput, MatDatepickerModule } from '@angular/material/datepicker';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-
-
 const routes: Routes = [
-  {path : 'reserve', component: DatePickerComponent},
+  {path : 'reserve/:id', component: DatePickerComponent},
   {path : 'cars/:id/:name', component: CarsDetailComponent},
   {path : 'search/:keyword', component: CarsComponent},
   {path : 'category/:id/:name', component: CarsComponent},
@@ -40,6 +38,7 @@ const routes: Routes = [
     CarsDetailComponent,
     SearchComponent,
     DatePickerComponent
+
   ],
   imports: [
     RouterModule.forRoot(routes),
@@ -53,8 +52,7 @@ const routes: Routes = [
     MatIconModule,
     FormsModule,
     ReactiveFormsModule,
-    BrowserAnimationsModule
-
+    BrowserAnimationsModule,
 
   ],
   exports:[
@@ -64,11 +62,7 @@ const routes: Routes = [
     MatIconModule,
     DatePickerComponent
   ],
-  providers: [CarsService,
-              {
-                provide: MAT_DATE_RANGE_SELECTION_STRATEGY,
-                useClass: DatePickerComponent,
-              }],
+  providers: [CarsService,],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

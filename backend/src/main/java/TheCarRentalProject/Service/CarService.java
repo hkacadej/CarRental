@@ -32,7 +32,8 @@ public class CarService {
     return carRepository.findAll();
     }
     public List<Car> getCarsByCategory(Long id) {
-        return carRepository.findByCategoryId(id);
+
+    return carRepository.findByCategoryId(id);
     }
     public Optional<Car> getCarById(Long id){
         return carRepository.findById(id);
@@ -50,7 +51,8 @@ public class CarService {
         return reservationRepository.findAllByCarId(id);
     }
 
-    public Reservation saveReservation(Reservation reservation) {
+    public void saveReservation(Reservation reservation) {
+        System.out.println(reservation);
         Long carId = reservation.getCar().getId();
         List<Reservation> carReservations = this.getCarReservation(carId);
         Date dateFrom = reservation.getDateFrom();
@@ -62,11 +64,13 @@ public class CarService {
             reservationsOverlap = (dateFrom1.before(dateTo) && dateTo1.after(dateFrom));
         }
         if(!reservationsOverlap){
-            return reservationRepository.save(reservation);
+            System.out.println("aaaaa");
+            reservationRepository.save(reservation);
         }else {
+            System.out.println("bbbbb");
             //TODO
             //it showld return a response with a message
-            return null;
+
         }
     }
 }

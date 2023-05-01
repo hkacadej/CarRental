@@ -1,8 +1,10 @@
+import { Reservation } from './../common/reservation';
 import { Car } from './../common/car';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http'
 import { Observable, map } from 'rxjs';
 import { CarCategory } from '../common/car-category';
+import { Reservate } from '../common/reservate';
 
 @Injectable({
   providedIn: 'root'
@@ -32,6 +34,22 @@ export class CarsService {
     console.log(searchUrl);
     return this.httpClient.get<Car[]>(searchUrl);
   }
+
+  getReservations(carId : number): Observable<Reservation[]>{
+    return this.httpClient.get<Reservation[]>(`http://localhost:8080/reservations/${carId}`);
+  }
+
+  makeReservation(reservate : Reservate): Observable<any>{
+    console.log(reservate);
+    return this.httpClient.post<Reservate>('http://localhost:8080/reservations/reserve',reservate)
+      .pipe(
+        map(response => {
+          console.log(response);
+          return response;
+        })
+      );
+  }
+
 }
 
 

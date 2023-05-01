@@ -1,35 +1,108 @@
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-
-const today = new Date();
-const month = today.getMonth();
-const year = today.getFullYear();
+import { MatCalendarCellClassFunction, MatCalendarCellCssClasses, MatDatepickerInputEvent } from '@angular/material/datepicker';
+import { ActivatedRoute } from '@angular/router';
+import { Reservate } from 'src/app/common/reservate';
+import { Reservation } from 'src/app/common/reservation';
+import { CarsService } from 'src/app/service/cars.service';
 
 @Component({
   selector: 'app-date-picker',
   templateUrl: './date-picker.component.html',
-  styles: [`
-    .example-form-field {
-      margin: 0 8px 16px 0;
-    }
-  `]
+  styleUrls: ['./date-picker.component.css']
 })
 
 
 export class DatePickerComponent {
-  campaignOne = new FormGroup({
-    start: new FormControl(new Date(year, month, 13)),
-    end: new FormControl(new Date(year, month, 16)),
-  });
+  constructor(private carService: CarsService, private route: ActivatedRoute) { }
+  reservations: Reservation[] = [];
+  reservedDates: string[] = [];
+  reserveFormGroup!: FormGroup;
+  isError = false;
 
-  campaignTwo = new FormGroup({
-    start: new FormControl(new Date(year, month, 15)),
-    end: new FormControl(new Date(year, month, 19)),
-  });
+  ngOnInit(): void {
+    this.route.paramMap.subscribe(
+      () => {
+        const carId = +this.route.snapshot.paramMap.get('id')!;
+        this.carService.getReservations(carId).subscribe(data => {
+          this.reservations = data;
+          this.reservedDates = this.getReservedDates();
+        })
+      }
+    )
 
-  disableRange(date: Date ): boolean {
-    const april1st = new Date(2023, 3, 1); // Note that the month is zero-indexed (0 = January, 11 = December)
-    const april5th = new Date(2023, 3, 5);
-    return date && date >= april1st && date <= april5th;
   }
+
+  range = new FormGroup({
+    start: new FormControl(),
+    end: new FormControl()
+  });
+
+  getDatesInRange(dateFrom: Date, endDate: Date) {
+
+    const dates = [];
+    let currentDate = new Date(dateFrom);
+    let dateTo = new Date(endDate);
+    currentDate.setHours(0);
+    currentDate.setMinutes(0);
+    currentDate.setSeconds(0);
+    currentDate.setMilliseconds(0);
+    dateTo.setHours(0);
+    while (currentDate <= dateTo) {
+      dates.push(currentDate.toISOString());
+      currentDate = new Date(currentDate.getTime() + 24 * 60 * 60 * 1000); // add 1 day
+    }
+    //console.log(dates);
+    return dates;
+
+  }
+  dateClass() {
+    return (date: Date): MatCalendarCellCssClasses => {
+
+      if (this.reservedDates.includes(date.toISOString())) {
+        return 'special-date';
+      } else {
+        return '';
+      }
+    };
+  }
+  getReservedDates() {
+    let dates: any[] = [];
+
+    for (let reservation of this.reservations) {
+      dates = dates.concat(this.getDatesInRange(reservation.dateFrom, reservation.dateTo));
+    }
+    return dates;
+  }
+  validateDates(type: string, event: MatDatepickerInputEvent<Date>){
+    if(this.range.get('start')?.value != null && this.range.get('end')?.value != null){
+      const dateFrom : Date= this.range.get('start')?.value;
+      const dateTo : Date = this.range.get('end')?.value;
+      if(this.reservedDates.includes(dateFrom.toISOString()) || this.reservedDates.includes(dateTo.toISOString())){
+        this.range.get('start')?.setValue(null);
+        this.range.get('end')?.setValue(null);
+        this.isError= true;
+      }else{
+        this.isError= false;
+      }
+    }
+  }
+
+  onSubmit(){
+    const dateFrom : Date= this.range.get('start')?.value;
+    const dateTo : Date = this.range.get('start')?.value;
+    const reserve : Reservate = new Reservate(
+    dateFrom.toISOString(),
+    dateTo.toISOString(),
+    this.reservations[0].car);
+    console.log(reserve);
+    this.carService.makeReservation(reserve).subscribe(() => {
+      console.log('Reservation added successfully');
+    });;
+  }
+
+
+
+
+
 }
