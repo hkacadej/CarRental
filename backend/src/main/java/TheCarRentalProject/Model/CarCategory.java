@@ -1,4 +1,4 @@
-package TheCarRentalProject.Car;
+package TheCarRentalProject.Model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

@@ -1,6 +1,5 @@
-package TheCarRentalProject.Car;
+package TheCarRentalProject.Model;
 
-import TheCarRentalProject.Enum.Status;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
