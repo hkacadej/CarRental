@@ -1,7 +1,8 @@
 package TheCarRentalProject.Controller;
 
-import TheCarRentalProject.Car.Car;
-import TheCarRentalProject.Car.CarCategory;
+import TheCarRentalProject.Model.Car;
+import TheCarRentalProject.Model.CarCategory;
+import TheCarRentalProject.Model.Reservation;
 import TheCarRentalProject.Service.CarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -51,5 +52,5 @@ public class CarController {
     }
 
     @GetMapping(name = "/reservations/{carId}")
-    public List<Reservation> getCarReservtion(@PathVariable Long carId){return carService.getCarReservation(carId);}
+    public List<Reservation> getCarReservation(@PathVariable Long carId){return carService.getCarReservation(carId);}
 }

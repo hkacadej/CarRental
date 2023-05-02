@@ -1,11 +1,12 @@
 package TheCarRentalProject.Service;
 
-import TheCarRentalProject.Car.Car;
-import TheCarRentalProject.Car.CarCategory;
-import TheCarRentalProject.Car.Reservation;
+import TheCarRentalProject.Model.Car;
+import TheCarRentalProject.Model.CarCategory;
+import TheCarRentalProject.Model.Reservation;
 import TheCarRentalProject.Repository.CarCategoryRepository;
 import TheCarRentalProject.Repository.CarRepository;
 import TheCarRentalProject.Repository.ReservationRepository;
+import TheCarRentalProject.response.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Date;
@@ -17,7 +18,6 @@ import java.util.Optional;
 public class CarService {
     private final CarRepository carRepository;
     private final CarCategoryRepository carCategoryRepository;
-
     private final ReservationRepository reservationRepository;
 
 @Autowired
@@ -26,7 +26,6 @@ public class CarService {
         this.carCategoryRepository = carCategoryRepository;
         this.reservationRepository = reservationRepository;
 }
-
 
     public List<Car> getCars() {
     return carRepository.findAll();
@@ -51,7 +50,7 @@ public class CarService {
         return reservationRepository.findAllByCarId(id);
     }
 
-    public void saveReservation(Reservation reservation) {
+    public Response saveReservation(Reservation reservation) {
         System.out.println(reservation);
         Long carId = reservation.getCar().getId();
         List<Reservation> carReservations = this.getCarReservation(carId);
@@ -64,13 +63,11 @@ public class CarService {
             reservationsOverlap = (dateFrom1.before(dateTo) && dateTo1.after(dateFrom));
         }
         if(!reservationsOverlap){
-            System.out.println("aaaaa");
             reservationRepository.save(reservation);
+            return new Response( 200, "Reservation saved successfully.");
         }else {
-            System.out.println("bbbbb");
-            //TODO
+            return new Response(400, "Reservation overlaps with an existing reservation.");
             //it showld return a response with a message
-
         }
     }
 }
