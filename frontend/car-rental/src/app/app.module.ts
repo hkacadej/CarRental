@@ -18,8 +18,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { LoginComponent } from './component/login/login.component';
 
 const routes: Routes = [
+  {path: 'login', component: LoginComponent},
   {path : 'reserve/:id', component: DatePickerComponent},
   {path : 'cars/:id/:name', component: CarsDetailComponent},
   {path : 'search/:keyword', component: CarsComponent},
@@ -37,7 +39,8 @@ const routes: Routes = [
     CarsCateogryComponent,
     CarsDetailComponent,
     SearchComponent,
-    DatePickerComponent
+    DatePickerComponent,
+    LoginComponent
 
   ],
   imports: [

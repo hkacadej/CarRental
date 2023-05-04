@@ -14,12 +14,8 @@ public class CorsConfiguration {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                        .allowedOrigins("*")
-                        .allowedMethods("GET", "POST", "PUT", "DELETE")
-                        .allowedHeaders("*")
-                        .exposedHeaders("Authorization")
-                        .allowCredentials(false)
-                        .maxAge(3600);
+                        .allowedOriginPatterns("http://localhost*")
+                        .allowCredentials(true);
             }
         };
     }

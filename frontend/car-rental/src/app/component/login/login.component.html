@@ -1,0 +1,20 @@
+<div class="main-content">
+  <div class="section-content section-content-p30">
+      <div class="container-fluid">
+<form (submit)="onSubmit()">
+  <label>
+    Username:
+    <input type="text" [(ngModel)]="username" name="username" required>
+  </label>
+  <br>
+  <label>
+    Password:
+    <input type="password" [(ngModel)]="password" name="password" required>
+  </label>
+  <br>
+  <button type="submit">Login</button>
+</form>
+
+      </div>
+  </div>
+</div>
