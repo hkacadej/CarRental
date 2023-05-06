@@ -8,7 +8,7 @@
       {{ car.price | currency:'EUR' }}/da
     </div>
     <a routerLink="/reserve/{{car.id}}">
-      <button class="btn btn-primary btn-sm">Add to Cart</button>
+      <button class="btn btn-primary btn-sm">Make a reservation</button>
     </a>
     <hr>
     <h4>
@@ -18,7 +18,7 @@
     <p> Capacity : {{ car.capacity }}</p>
     <p> Engine : {{ car.engine }}</p>
     <ng-container *ngIf="car.status; else elseTemplate">
-      Status : Available
+      <p>Status : Available</p>
     </ng-container>
     <ng-template #elseTemplate>
       Status : Not Available

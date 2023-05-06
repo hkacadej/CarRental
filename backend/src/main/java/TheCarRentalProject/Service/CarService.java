@@ -51,7 +51,7 @@ public class CarService {
         return reservationRepository.findAllByCarId(id);
     }
 
-    public void saveReservation(Reservation reservation) {
+    public boolean saveReservation(Reservation reservation) {
         System.out.println(reservation);
         Long carId = reservation.getCar().getId();
         List<Reservation> carReservations = this.getCarReservation(carId);
@@ -64,13 +64,12 @@ public class CarService {
             reservationsOverlap = (dateFrom1.before(dateTo) && dateTo1.after(dateFrom));
         }
         if(!reservationsOverlap){
-            System.out.println("aaaaa");
+            System.out.println("Reservation");
             reservationRepository.save(reservation);
+            return true;
         }else {
-            System.out.println("bbbbb");
-            //TODO
-            //it showld return a response with a message
-
+            System.out.println("No Reservation");
+            return false;
         }
     }
 }

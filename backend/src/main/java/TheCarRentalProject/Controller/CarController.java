@@ -5,13 +5,9 @@ import TheCarRentalProject.Car.CarCategory;
 import TheCarRentalProject.Car.Reservation;
 import TheCarRentalProject.Service.CarService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -53,9 +49,7 @@ public class CarController {
     public List<Reservation> getCarReservation(@PathVariable Long id){return carService.getCarReservation(id);}
 
     @PostMapping(path = "/reservations/reserve")
-    public ResponseEntity<Reservation> saveReservation(@RequestBody Reservation reservation) {
-        carService.saveReservation(reservation);
-        System.out.println("henri");
-        return new ResponseEntity<>( HttpStatus.CREATED);
+    public boolean saveReservation(@RequestBody Reservation reservation) {
+        return carService.saveReservation(reservation);
     }
 }

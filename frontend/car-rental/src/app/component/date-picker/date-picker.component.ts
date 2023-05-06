@@ -1,7 +1,8 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatCalendarCellClassFunction, MatCalendarCellCssClasses, MatDatepickerInputEvent } from '@angular/material/datepicker';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Car } from 'src/app/common/car';
 import { Reservate } from 'src/app/common/reservate';
 import { Reservation } from 'src/app/common/reservation';
 import { CarsService } from 'src/app/service/cars.service';
@@ -14,19 +15,27 @@ import { CarsService } from 'src/app/service/cars.service';
 
 
 export class DatePickerComponent {
-  constructor(private carService: CarsService, private route: ActivatedRoute) { }
+  constructor(private carService: CarsService, private route: ActivatedRoute, private router : Router) { }
   reservations: Reservation[] = [];
   reservedDates: string[] = [];
   reserveFormGroup!: FormGroup;
   isError = false;
-
+  currentCategoryId : string  = '';
+  car! : Car ;
+  finalprice : number = 0;
   ngOnInit(): void {
     this.route.paramMap.subscribe(
       () => {
         const carId = +this.route.snapshot.paramMap.get('id')!;
+        this.currentCategoryId = this.route.snapshot.paramMap.get('catedoryId')!
         this.carService.getReservations(carId).subscribe(data => {
           this.reservations = data;
           this.reservedDates = this.getReservedDates();
+          this.carService.getCarById(carId).subscribe(
+            data =>{
+              this.car = data;
+            }
+          )
         })
       }
     )
@@ -83,6 +92,9 @@ export class DatePickerComponent {
         this.range.get('end')?.setValue(null);
         this.isError= true;
       }else{
+        const dateFrom : Date= this.range.get('start')?.value;
+        const dateTo : Date = this.range.get('end')?.value;
+        this.finalprice  = this.getDatesInRange(dateFrom , dateTo).length * this.car.price;
         this.isError= false;
       }
     }
@@ -90,15 +102,21 @@ export class DatePickerComponent {
 
   onSubmit(){
     const dateFrom : Date= this.range.get('start')?.value;
-    const dateTo : Date = this.range.get('start')?.value;
+    const dateTo : Date = this.range.get('end')?.value;
+    this.finalprice  = this.getDatesInRange(dateFrom , dateTo).length * this.car.price;
     const reserve : Reservate = new Reservate(
     dateFrom.toISOString(),
     dateTo.toISOString(),
-    this.reservations[0].car);
+    this.car);
     console.log(reserve);
-    this.carService.makeReservation(reserve).subscribe(() => {
-      console.log('Reservation added successfully');
-    });;
+    this.carService.makeReservation(reserve).subscribe((data) => {
+        if(data){
+          this.router.navigate([`/cars/${this.car.id}/${this.currentCategoryId} `]);
+        }else{
+          this.isError= true;
+        }
+    });
+
   }
 
 
