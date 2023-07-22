@@ -7,7 +7,7 @@ import { AppComponent } from './app.component';
 import { CarsComponent } from './components/cars/cars.component';
 import { RouterModule, Routes } from '@angular/router';
 import { CarsService } from './service/cars.service';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { CarsCateogryComponent } from './components/cars-cateogry/cars-cateogry.component';
 import { CarsDetailComponent } from './components/cars-detail/cars-detail.component';
 import { SearchComponent } from './search/search/search.component';
@@ -18,14 +18,22 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { LoginComponent } from './authentication/components/login/login.component';
+import { InterceptorService } from './authentication/services/interceptor.service';
+import { AuthGuard } from './authentication/guards/auth.guard';
 
 const routes: Routes = [
-  {path : 'reserve/:id', component: DatePickerComponent},
-  {path : 'cars/:id/:name', component: CarsDetailComponent},
-  {path : 'search/:keyword', component: CarsComponent},
-  {path : 'category/:id/:name', component: CarsComponent},
-  {path : 'category', component: CarsComponent},
-  {path : 'cars', component: CarsComponent},
+  { path: 'login', component: LoginComponent },
+
+  // Protected route that requires authentication and 'admin' role
+  //{ path: 'protected', component: ProtectedComponent, canActivate: [AuthGuard], data: { requiredRoles: ['admin'] } },
+
+  {path : 'reserve/:id', component: DatePickerComponent, canActivate: [AuthGuard]},
+  {path : 'cars/:id/:name', component: CarsDetailComponent, canActivate: [AuthGuard]},
+  {path : 'search/:keyword', component: CarsComponent, canActivate: [AuthGuard]},
+  {path : 'category/:id/:name', component: CarsComponent, canActivate: [AuthGuard]},
+  {path : 'category', component: CarsComponent, canActivate: [AuthGuard]},
+  {path : 'cars', component: CarsComponent, canActivate: [AuthGuard]},
   {path : '', redirectTo: '/cars' , pathMatch: 'full'},
   {path : '**', redirectTo: '/cars' , pathMatch: 'full'}
 ]
@@ -37,7 +45,8 @@ const routes: Routes = [
     CarsCateogryComponent,
     CarsDetailComponent,
     SearchComponent,
-    DatePickerComponent
+    DatePickerComponent,
+    LoginComponent
 
   ],
   imports: [
@@ -62,7 +71,14 @@ const routes: Routes = [
     MatIconModule,
     DatePickerComponent
   ],
-  providers: [CarsService,],
+  providers: [
+    CarsService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: InterceptorService,
+      multi: true,
+    },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

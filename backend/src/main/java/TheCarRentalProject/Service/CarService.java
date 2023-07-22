@@ -57,13 +57,13 @@ public class CarService {
         List<Reservation> carReservations = this.getCarReservation(carId);
         Date dateFrom = reservation.getDateFrom();
         Date dateTo = reservation.getDateTo();
-        Boolean reservationsOverlap = false;
-        for(Reservation existingReservation : carReservations) {
+        final Boolean[] reservationsOverlap = new Boolean[1];
+        carReservations.stream().forEach(existingReservation -> {
             Date dateTo1 = existingReservation.getDateTo();
             Date dateFrom1 = existingReservation.getDateFrom();
-            reservationsOverlap = (dateFrom1.before(dateTo) && dateTo1.after(dateFrom));
-        }
-        if(!reservationsOverlap){
+            reservationsOverlap[0] = (dateFrom1.before(dateTo) && dateTo1.after(dateFrom));
+        });
+        if(!reservationsOverlap[0]){
             System.out.println("Reservation");
             reservationRepository.save(reservation);
             return true;

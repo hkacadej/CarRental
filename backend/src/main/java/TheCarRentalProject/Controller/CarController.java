@@ -21,7 +21,6 @@ public class CarController {
     }
 
     @GetMapping(path = "/cars")
-
     public List<Car>getCars() {
         return carService.getCars();
     }

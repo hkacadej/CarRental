@@ -1,3 +1,4 @@
+import { AuthService } from './../../authentication/services/auth-service.service';
 import { Component } from '@angular/core';
 import { CarCategory } from 'src/app/common/car-category';
 import { CarsService } from 'src/app/service/cars.service';
@@ -8,12 +9,16 @@ import { CarsService } from 'src/app/service/cars.service';
   styleUrls: ['./cars-cateogry.component.css']
 })
 export class CarsCateogryComponent {
+
   carCategories: CarCategory[]=[];
 
-  constructor(private carService: CarsService){}
+  constructor(private carService: CarsService , private authService : AuthService){}
 
   ngOnInit() {
     this.listProductCategories();
+  }
+  logout(){
+    this.authService.logout();
   }
   listProductCategories() {
     this.carService.getCarCategories().subscribe(

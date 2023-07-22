@@ -47,15 +47,9 @@ export class CarsComponent {
       //get name param string
       this.currentCategoryName = this.route.snapshot.paramMap.get('name')!;
     }
-    else{
-      console.log(this.route.params);
-      //vihet default te 1
-      this.currentCategoryId=6;
-      this.currentCategoryName="SEDAN";
-    }
     this.previousCategoryId = this.currentCategoryId;
 
-    this.getCars()
+    this.getCars(categoryIdExists)
   }
   proccesResult(): any {
     return(data: any) => {
@@ -63,8 +57,12 @@ export class CarsComponent {
     }
   }
 
-  getCars(){
-    this.carservice.getCars(this.currentCategoryId).subscribe(data => this.cars = data);
+  getCars(categoryIdExists : boolean){
+    if(categoryIdExists){
+      this.carservice.getCars(this.currentCategoryId).subscribe(data => this.cars = data);
+      console.log(this.cars);
+    }
+    this.carservice.getAllCars().subscribe(data => this.cars = data);
     console.log(this.cars);
   }
 }
