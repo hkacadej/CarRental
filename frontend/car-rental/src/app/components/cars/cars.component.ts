@@ -38,6 +38,7 @@ export class CarsComponent {
   }
   handleListCars() {
     const categoryIdExists: boolean = this.route.snapshot.paramMap.has('id');
+    console.log(this.route.snapshot.paramMap);
     const categoryNameExists: boolean = this.route.snapshot.paramMap.has('name');
     if(categoryIdExists){
       console.log('aaa');
@@ -61,8 +62,8 @@ export class CarsComponent {
     if(categoryIdExists){
       this.carservice.getCars(this.currentCategoryId).subscribe(data => this.cars = data);
       console.log(this.cars);
+    }else{
+      this.carservice.getAllCars().subscribe(data => this.cars = data);
     }
-    this.carservice.getAllCars().subscribe(data => this.cars = data);
-    console.log(this.cars);
   }
 }

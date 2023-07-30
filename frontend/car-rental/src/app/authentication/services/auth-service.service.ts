@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { tap } from 'rxjs/operators';
+import jwt_decode from 'jwt-decode';
+
 
 @Injectable({
   providedIn: 'root',
@@ -55,12 +57,12 @@ export class AuthService {
 
   hasRoles(requiredRoles: string[]): boolean {
     const userRoles = this.getUserRoles();
+    console.log(userRoles)
 
     // Check if the user has all the required roles
     return requiredRoles.every((role) => userRoles.includes(role));
   }
+
 }
-function jwt_decode(token: string): any {
-  throw new Error('Function not implemented.');
-}
+
 

@@ -28,10 +28,14 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String username) {
         User user = userRepository.findByUsername(username);
             // Create a UserDetails object using the user data fetched from the repository
         // For simplicity, we assume the roles are stored as a comma-separated string in the database
+        if (user == null){
+           throw new UsernameNotFoundException("User not found with username: " + username);
+        }
+
         String[] roles = user.getRoles().split(",");
         List<SimpleGrantedAuthority> authorities = Arrays.stream(roles)
                 .map(SimpleGrantedAuthority::new)

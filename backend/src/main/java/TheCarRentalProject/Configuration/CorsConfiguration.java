@@ -21,6 +21,5 @@ public class CorsConfiguration implements WebMvcConfigurer{
 
                 .allowCredentials(true);
 
-        logger.info("o kariiiiiiiiiiiiiiiiiiiiiiiii");
     }
 }
