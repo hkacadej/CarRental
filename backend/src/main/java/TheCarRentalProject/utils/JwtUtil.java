@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class JwtUtil {
-    private static final long EXPIRE_DURATION = 24 * 60 * 60 * 1000; // 24 hour
+    private static final long EXPIRE_DURATION = 3 * 60 * 60 * 1000; // 24 hour
 
     //@Value("${
     // app.jwt.secret}")
@@ -37,6 +37,9 @@ public class JwtUtil {
     private static final Logger LOGGER = LoggerFactory.getLogger(JwtUtil.class);
 
     public boolean validateAccessToken(String token) {
+        LOGGER.info(String.valueOf(System.currentTimeMillis()));
+        LOGGER.info("----------======================--------------------");
+
         try {
             Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token);
             return true;

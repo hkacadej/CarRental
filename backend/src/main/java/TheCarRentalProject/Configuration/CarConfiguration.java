@@ -1,13 +1,10 @@
 package TheCarRentalProject.Configuration;
 
-import TheCarRentalProject.Car.Car;
 import TheCarRentalProject.Repository.CarRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 
-import java.util.List;
-
-@org.springframework.context.annotation.Configuration
+//@org.springframework.context.annotation.Configuration
 public class CarConfiguration {
     @Bean
     CommandLineRunner commandLineRunner(CarRepository repository){

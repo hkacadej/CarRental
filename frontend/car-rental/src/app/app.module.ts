@@ -11,7 +11,7 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { CarsCateogryComponent } from './components/cars-cateogry/cars-cateogry.component';
 import { CarsDetailComponent } from './components/cars-detail/cars-detail.component';
 import { SearchComponent } from './search/search/search.component';
-import { DatePickerComponent } from './component/date-picker/date-picker.component';
+import { DatePickerComponent } from './components/date-picker/date-picker.component';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatIconModule } from '@angular/material/icon';
@@ -21,19 +21,23 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LoginComponent } from './authentication/components/login/login.component';
 import { InterceptorService } from './authentication/services/interceptor.service';
 import { AuthGuard } from './authentication/guards/auth.guard';
+import { UsersComponent } from './authentication/components/users/users.component';
+import { InsertComponent } from './components/insert/insert.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
+  { path: 'users', component: UsersComponent },
+  {path : 'insert', component: InsertComponent, canActivate: [AuthGuard], data: { roles: ["JARI"] }},
 
   // Protected route that requires authentication and 'admin' role
   //{ path: 'protected', component: ProtectedComponent, canActivate: [AuthGuard], data: { requiredRoles: ['admin'] } },
 
-  {path : 'reserve/:id', component: DatePickerComponent, canActivate: [AuthGuard]},
-  {path : 'cars/:id/:name', component: CarsDetailComponent, canActivate: [AuthGuard]},
-  {path : 'search/:keyword', component: CarsComponent, canActivate: [AuthGuard]},
-  {path : 'category/:id/:name', component: CarsComponent, canActivate: [AuthGuard]},
-  {path : 'category', component: CarsComponent, canActivate: [AuthGuard]},
-  {path : 'cars', component: CarsComponent, canActivate: [AuthGuard]},
+  {path : 'reserve/:id', component: DatePickerComponent, canActivate: [AuthGuard], data: { roles: ["JARI"] }},
+  {path : 'cars/:id/:name', component: CarsDetailComponent, canActivate: [AuthGuard], data: { roles: ["JARI"] }},
+  {path : 'search/:keyword', component: CarsComponent, canActivate: [AuthGuard], data: { roles: ["JARI"] }},
+  {path : 'category/:id/:name', component: CarsComponent, canActivate: [AuthGuard], data: { roles: ["JARI"] }},
+  {path : 'category', component: CarsComponent, canActivate: [AuthGuard], data: { roles: ["JARI"] }},
+  {path : 'cars', component: CarsComponent, canActivate: [AuthGuard], data: { roles: ["JARI"] }},
   {path : '', redirectTo: '/cars' , pathMatch: 'full'},
   {path : '**', redirectTo: '/cars' , pathMatch: 'full'}
 ]
@@ -46,7 +50,9 @@ const routes: Routes = [
     CarsDetailComponent,
     SearchComponent,
     DatePickerComponent,
-    LoginComponent
+    LoginComponent,
+    UsersComponent,
+    InsertComponent
 
   ],
   imports: [

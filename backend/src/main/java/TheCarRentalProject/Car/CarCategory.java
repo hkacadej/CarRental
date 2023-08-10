@@ -8,16 +8,18 @@ import lombok.NoArgsConstructor;
 import java.util.Set;
 
 @Entity
-@Data
 @Table(name="car_category")
 @NoArgsConstructor
 @AllArgsConstructor
+@Data
 public class CarCategory {
 
     @jakarta.persistence.Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
+
     private Long id;
+
 
     @Column(name="category_name")
     private String categoryName;

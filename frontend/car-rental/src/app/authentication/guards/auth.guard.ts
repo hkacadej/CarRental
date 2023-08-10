@@ -12,7 +12,8 @@ export class AuthGuard implements CanActivate {
     if (this.authService.isLoggedIn()) {
       // If the user is logged in (has a valid JWT token), check for required roles
       //const requiredRoles = route.data['requiredRoles'] as string[]; // Get the required roles from the route's data
-      const requiredRoles = ['ADMIN'] // Get the required roles from the route's data
+      const requiredRoles: string[] = route.data['roles'] as string[];
+      // Get the required roles from the route's data
 
       if (this.authService.hasRoles(requiredRoles)) {
         // If the user has the required roles, allow access to the route

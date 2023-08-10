@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { tap } from 'rxjs/operators';
@@ -12,7 +13,7 @@ export class AuthService {
   private apiUrl = 'http://localhost:8080'; // Replace this with your Spring backend API URL
   private tokenKey = 'access_token'; // Key to store JWT token in browser storage
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient , private router: Router) {}
 
   login(username: string, password: string) {
     //return this.httpClient.post<string>("http://localhost:9191/authenticate", request, {  responseType: 'text' as 'json' });
@@ -32,6 +33,8 @@ export class AuthService {
   logout() {
     // Remove the JWT token from browser storage
     localStorage.removeItem(this.tokenKey);
+    this.router.navigate(['/login']);
+
   }
 
   getToken() {
@@ -63,6 +66,19 @@ export class AuthService {
     return requiredRoles.every((role) => userRoles.includes(role));
   }
 
+  isTokenExpired(){
+    const decodedToken: any = jwt_decode(this.getToken()!);
+    const expirationTimeInMillis = decodedToken.exp * 1000;
+    const currentTimestamp = new Date().getTime();
+
+    if (currentTimestamp > expirationTimeInMillis) {
+      console.log('Token has expired.');
+      this.logout()
+    } else {
+      console.log('Token is still valid.');
+    }
+
+  }
 }
 
 

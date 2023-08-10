@@ -1,6 +1,5 @@
 package TheCarRentalProject.Configuration;
 
-import TheCarRentalProject.users.User;
 import TheCarRentalProject.utils.JwtUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -10,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
@@ -23,11 +23,13 @@ public class JwtTokenFilter extends OncePerRequestFilter {
     @Autowired
     private JwtUtil jwtUtil;
 
+    @Autowired private UserDetailsService userDetailsService;
+
     @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
-
+        logger.info("Filtering...");
         if (!hasAuthorizationBearer(request)) {
             filterChain.doFilter(request, response);
             return;
@@ -60,24 +62,23 @@ public class JwtTokenFilter extends OncePerRequestFilter {
     }
 
     private void setAuthenticationContext(String token, HttpServletRequest request) {
-        System.out.println(request);
         UserDetails userDetails = getUserDetails(token);
 
         UsernamePasswordAuthenticationToken
-                authentication = new UsernamePasswordAuthenticationToken(userDetails, null, null);
+                authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
 
         authentication.setDetails(
                 new WebAuthenticationDetailsSource().buildDetails(request));
-        System.out.println(authentication);
+
         SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 
     private UserDetails getUserDetails(String token) {
-        User userDetails = new User();
-        String[] jwtSubject = jwtUtil.getSubject(token).split(",");
-        logger.info(jwtSubject);
-        userDetails.setUsername(jwtSubject[0]);
 
+        String[] jwtSubject = jwtUtil.getSubject(token).split(",");
+        UserDetails userDetails =  userDetailsService.loadUserByUsername(jwtSubject[0]);
+        logger.info(userDetails.getAuthorities());
+        //userDetails.setUsername(jwtSubject[0]);
         return userDetails;
     }
 

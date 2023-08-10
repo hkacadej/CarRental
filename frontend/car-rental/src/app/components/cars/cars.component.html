@@ -8,7 +8,7 @@
               <div *ngFor="let car of cars" class = "col-md-3">
 
                   <div class="product-box">
-                      <a routerLink="/cars/{{ car.id }}/{{ currentCategoryId }}">
+                      <a routerLink="/cars/{{ car.id }}/{{ car.plate }}">
                         <img src="{{ car.imageUrl }}" class="img-responsive">
                       </a>
                       <h1>{{ car.model }}</h1>

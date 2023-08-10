@@ -1,16 +1,20 @@
+import { CarCategory } from "./car-category";
+
 export class Car {
-  constructor(
-  public id: number,
-  public plate: string,
-  public make: string,
-  public model: string,
-  public fuel: string,
-  public engine: number,
-  public year: number,
-  public capacity: number,
-  public price: number,
-  public imageUrl: string,
-  public status: boolean)
-  {}
+
+
+   id: number;
+   plate: string;
+   make: string;
+   model: string;
+   fuel: string;
+   engine: number;
+   year: number;
+   capacity: number;
+   price: number;
+   imageUrl: string;
+   category: CarCategory;
+   status: boolean;
+   image: File;
 }
 

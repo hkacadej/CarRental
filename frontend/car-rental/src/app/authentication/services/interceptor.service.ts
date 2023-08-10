@@ -5,15 +5,15 @@ import { AuthService } from './auth-service.service';
 
 @Injectable()
 export class InterceptorService implements HttpInterceptor {
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService) { }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const token = this.authService.getToken();
-
     if (token) {
+      this.authService.isTokenExpired();
       // Clone the request and add the Authorization header with the JWT token
-    console.log(request)
-    console.log("request")
+      console.log(request)
+      console.log("request")
 
       request = request.clone({
         setHeaders: {

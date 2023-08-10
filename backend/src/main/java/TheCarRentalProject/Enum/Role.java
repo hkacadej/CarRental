@@ -13,5 +13,6 @@ public enum Role {
     public String getAuthority() {
         return authority;
     }
+
 }
 

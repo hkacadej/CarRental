@@ -2,8 +2,11 @@ package TheCarRentalProject.Service.implementations;
 
 import TheCarRentalProject.Repository.UserRepository;
 import TheCarRentalProject.users.User;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -21,6 +24,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     private final UserRepository userRepository;
 
+    private static final Logger logger = LoggerFactory.getLogger(UserDetailsServiceImpl.class);
+
     @Autowired
     public UserDetailsServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
@@ -37,10 +42,13 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         }
 
         String[] roles = user.getRoles().split(",");
-        List<SimpleGrantedAuthority> authorities = Arrays.stream(roles)
+
+        List<GrantedAuthority> authorities = Arrays
+                .stream(roles)
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());
 
+        logger.info(authorities.toString());
         return new org.springframework.security.core.userdetails.User(
                 user.getUsername(),
                 user.getPassword(),

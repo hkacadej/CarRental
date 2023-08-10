@@ -1,5 +1,6 @@
 	package TheCarRentalProject.Configuration;
 
+	import TheCarRentalProject.Enum.Role;
 	import TheCarRentalProject.Repository.UserRepository;
 	import TheCarRentalProject.Service.implementations.UserDetailsServiceImpl;
 	import TheCarRentalProject.handling.YourAccessDeniedHandler;
@@ -41,6 +42,7 @@
 						 .userDetailsService(userDetailService)
 						 .passwordEncoder(bCryptPasswordEncoder)
 						 .and()
+
 						 .build();
 			 } catch (Exception e) {
 
@@ -56,6 +58,7 @@
 			http.csrf(csrf -> csrf.disable())
 					.authorizeHttpRequests(auth -> auth
 							.requestMatchers("/authenticate", "/docs/**", "/users").permitAll()
+							.requestMatchers("/manage-user/list").hasRole(Role.ADMIN.name())
 							.anyRequest().authenticated()
 					);
 

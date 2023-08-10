@@ -20,7 +20,8 @@ export class CarsComponent {
 
   ngOnInit(): void {
   this.route.params.subscribe(()=>{this.listCars()})
-
+    this.carservice.getRoles().subscribe(
+      arg => console.log(arg[0]) );
   }
   listCars() {
     this.searchMode=this.route.snapshot.paramMap.has('keyword');
@@ -38,10 +39,8 @@ export class CarsComponent {
   }
   handleListCars() {
     const categoryIdExists: boolean = this.route.snapshot.paramMap.has('id');
-    console.log(this.route.snapshot.paramMap);
     const categoryNameExists: boolean = this.route.snapshot.paramMap.has('name');
     if(categoryIdExists){
-      console.log('aaa');
       // get "id" string , convert to number with "+" the "!" at the end tells the compiler that the value is not null
       this.currentCategoryId = +this.route.snapshot.paramMap.get('id')!;
 
@@ -51,11 +50,6 @@ export class CarsComponent {
     this.previousCategoryId = this.currentCategoryId;
 
     this.getCars(categoryIdExists)
-  }
-  proccesResult(): any {
-    return(data: any) => {
-      this.cars= data;
-    }
   }
 
   getCars(categoryIdExists : boolean){

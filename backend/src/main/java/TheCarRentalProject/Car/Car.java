@@ -1,6 +1,5 @@
 package TheCarRentalProject.Car;
 
-import TheCarRentalProject.Enum.Status;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -55,7 +54,18 @@ public class Car {
     @JoinColumn(name = "category_id", referencedColumnName = "id", nullable = false, foreignKey = @ForeignKey(name = "fk_category"))
     private CarCategory category;
 
+
+    public String getMake() {
+        return make;
+    }
+
+
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "car")
     private Set<Reservation> reservations;
-
 }
