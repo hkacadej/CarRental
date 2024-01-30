@@ -1,7 +1,7 @@
 import { Router } from '@angular/router';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { tap } from 'rxjs/operators';
+import { Observable, tap, map } from 'rxjs';
 import jwt_decode from 'jwt-decode';
 
 
@@ -57,6 +57,18 @@ export class AuthService {
     }
     return [];
   }
+
+  getManagerPages(): Observable<String[]> {
+    const roles = this.getUserRoles();
+    return this.http.post<String[]>(`${this.apiUrl}/getPages`,roles).pipe(
+      map(
+        data=>{
+          return data;
+        }
+      )
+    )
+  }
+
 
   hasRoles(requiredRoles: string[]): boolean {
     const userRoles = this.getUserRoles();

@@ -1,3 +1,4 @@
+import { AuthService } from './authentication/services/auth-service.service';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
@@ -7,7 +8,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  constructor(private router: Router) {}
+  constructor(private router: Router ,private authService: AuthService) {}
 
   title = 'car-rental';
 
@@ -15,5 +16,8 @@ export class AppComponent {
     console.log()
     return this.router.url === '/login';
 
+  }
+  logout(){
+    this.authService.logout();
   }
 }

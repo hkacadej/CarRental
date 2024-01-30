@@ -1,11 +1,10 @@
-import { CarDto } from './../../common/car-dto';
 import { CarsService } from '../../service/cars.service';
 import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Car } from 'src/app/common/car';
 import { CarCategory } from 'src/app/common/car-category';
-import { CarValidatorService } from 'src/app/validators/car-validator';
+
 
 @Component({
   selector: 'app-insert',
@@ -25,7 +24,8 @@ export class InsertComponent {
     this.carFormGoup = this.formBuilder.group({
       car: this.formBuilder.group({
         plate: new FormControl('', [Validators.required,
-        Validators.minLength(2)]),
+        Validators.minLength(2),
+        Validators.pattern('^[A-Z]{2}\d{3}[A-Z]{2}$')]),
 
         make: new FormControl('', [Validators.required,
         Validators.minLength(2)]),
@@ -37,19 +37,23 @@ export class InsertComponent {
         Validators.minLength(2)]),
 
         engine: new FormControl('', [Validators.required,
-        Validators.minLength(1)]),
+        Validators.minLength(1),
+        Validators.pattern('^\d{1,2}\.\d$')]),
 
 
         year: new FormControl('', [Validators.required,
-        Validators.minLength(2)]),
+        Validators.minLength(2),
+        Validators.pattern('^\d{4}$')]),
 
 
         capacity: new FormControl('', [Validators.required,
-        Validators.minLength(2)]),
+        Validators.minLength(2),
+        Validators.pattern('^\d{1}$')]),
 
 
         price: new FormControl('', [Validators.required,
-        Validators.minLength(2)]),
+        Validators.minLength(2),
+        Validators.pattern('^\d{1,2}\.\d$')]),
 
         category: new FormControl('', Validators.required)
       })

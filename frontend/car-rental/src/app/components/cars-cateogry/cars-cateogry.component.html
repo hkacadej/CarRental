@@ -4,8 +4,8 @@
       <li *ngFor="let category of carCategories">
         <a routerLink="/category/{{ category.id }}/{{ category.categoryName }}" routerLinkActive="active-link">{{ category.categoryName }}</a>
       </li>
-      <li>
-        <button (click)="logout()">Logout</button>
+      <li *ngFor="let page of managerPages">
+        <a routerLink="/{{ page }}" routerLinkActive="active-link">{{ page }}</a>
       </li>
     </ul>
   </nav>

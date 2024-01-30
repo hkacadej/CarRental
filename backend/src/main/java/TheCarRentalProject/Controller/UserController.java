@@ -56,11 +56,12 @@ public class UserController {
         return ResponseEntity.ok(userService.getRoles());
     }
 
-    @PostMapping(path = "/cars/insert/user")
+    @PostMapping(path = "/manage-user/add")
     public ResponseEntity<?> saveUser(@RequestBody TheCarRentalProject.users.User user){
+        logger.info(user.getRoles());
         try {
             logger.info(user.toString());
-            return ResponseEntity.ok(userService.saveUser(user));
+            return ResponseEntity.ok(this.userService.saveUser(user));
         }catch (Exception e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e);
         }
@@ -70,5 +71,9 @@ public class UserController {
         return userService.getAllUsers();
     }
 
+    @PostMapping(path = "/getPages")
+    public List<String> getPages(@RequestBody String[] roles){
+        return userService.getPages(roles);
+    }
 }
 

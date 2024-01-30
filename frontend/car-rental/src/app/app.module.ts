@@ -23,21 +23,23 @@ import { InterceptorService } from './authentication/services/interceptor.servic
 import { AuthGuard } from './authentication/guards/auth.guard';
 import { UsersComponent } from './authentication/components/users/users.component';
 import { InsertComponent } from './components/insert/insert.component';
+import { InsertUserComponent } from './components/insert-user/insert-user.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'users', component: UsersComponent },
-  {path : 'insert', component: InsertComponent, canActivate: [AuthGuard], data: { roles: ["JARI"] }},
+  { path: 'insert-user', component: InsertUserComponent, canActivate: [AuthGuard], data: { roles: ["ROLE_ADMIN"] } },
+  { path : 'insert-car', component: InsertComponent, canActivate: [AuthGuard], data: { roles: ["ROLE_ADMIN"] }},
 
   // Protected route that requires authentication and 'admin' role
   //{ path: 'protected', component: ProtectedComponent, canActivate: [AuthGuard], data: { requiredRoles: ['admin'] } },
 
-  {path : 'reserve/:id', component: DatePickerComponent, canActivate: [AuthGuard], data: { roles: ["JARI"] }},
-  {path : 'cars/:id/:name', component: CarsDetailComponent, canActivate: [AuthGuard], data: { roles: ["JARI"] }},
-  {path : 'search/:keyword', component: CarsComponent, canActivate: [AuthGuard], data: { roles: ["JARI"] }},
-  {path : 'category/:id/:name', component: CarsComponent, canActivate: [AuthGuard], data: { roles: ["JARI"] }},
-  {path : 'category', component: CarsComponent, canActivate: [AuthGuard], data: { roles: ["JARI"] }},
-  {path : 'cars', component: CarsComponent, canActivate: [AuthGuard], data: { roles: ["JARI"] }},
+  {path : 'reserve/:id', component: DatePickerComponent, canActivate: [AuthGuard], data: { roles: ["ROLE_ADMIN"] }},
+  {path : 'cars/:id/:name', component: CarsDetailComponent, canActivate: [AuthGuard], data: { roles: ["ROLE_ADMIN"] }},
+  {path : 'search/:keyword', component: CarsComponent, canActivate: [AuthGuard], data: { roles: ["ROLE_ADMIN"] }},
+  {path : 'category/:id/:name', component: CarsComponent, canActivate: [AuthGuard], data: { roles: ["ROLE_ADMIN"] }},
+  {path : 'category', component: CarsComponent, canActivate: [AuthGuard], data: { roles: ["ROLE_ADMIN"] }},
+  {path : 'cars', component: CarsComponent, canActivate: [AuthGuard], data: { roles: ["ROLE_ADMIN"] }},
   {path : '', redirectTo: '/cars' , pathMatch: 'full'},
   {path : '**', redirectTo: '/cars' , pathMatch: 'full'}
 ]
@@ -52,7 +54,8 @@ const routes: Routes = [
     DatePickerComponent,
     LoginComponent,
     UsersComponent,
-    InsertComponent
+    InsertComponent,
+    InsertUserComponent
 
   ],
   imports: [

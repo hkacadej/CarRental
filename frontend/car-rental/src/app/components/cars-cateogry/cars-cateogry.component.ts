@@ -11,20 +11,22 @@ import { CarsService } from 'src/app/service/cars.service';
 export class CarsCateogryComponent {
 
   carCategories: CarCategory[]=[];
-
+  managerPages: String[];
   constructor(private carService: CarsService , private authService : AuthService){}
 
   ngOnInit() {
     this.listProductCategories();
   }
-  logout(){
-    this.authService.logout();
-  }
+
   listProductCategories() {
     this.carService.getCarCategories().subscribe(
       data => {
         this.carCategories=data;
       }
     );
+
+    this.authService.getManagerPages().subscribe(
+      data => this.managerPages=data
+    )
   }
 }

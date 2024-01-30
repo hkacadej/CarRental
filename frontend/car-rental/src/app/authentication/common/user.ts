@@ -1,6 +1,4 @@
 export class User {
-  constructor(
-    public userName : String,
-    public roles: String[]
-  ){}
+    userName : String;
+    roles: String[];
 }
